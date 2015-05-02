@@ -1,14 +1,14 @@
 {
-  "name": "Surfify Notification Server",
+  "name": "Surfify-Notification-Server",
   "version": "0.0.1",
   "description": "Notification Server for Surfify App Polling",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-    "engines": {
-        "iojs": "1.8.x"
-    },
+  "engines": {
+    "iojs": "1.8.x"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:Daveloper87/surfify-notification-server.git"
@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Daveloper87/surfify-notification-server",
   "dependencies": {
     "koa": "^0.20.0",
-    "koa-router": "^4.3.0"
+    "koa-router": "^4.3.0",
+    "msw-client": "^1.1.0"
   }
 }
