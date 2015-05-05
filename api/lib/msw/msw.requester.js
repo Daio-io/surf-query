@@ -1,6 +1,7 @@
 'use strict';
 
 var MswClient = require('./msw.client');
+var moment = require('moment');
 
 // TODO: refactor into cleaner solution - deploying to test from app
 // Params for time and other scenarios around swell max and min
@@ -41,6 +42,8 @@ function _buildResponse(_data, _wind, _minSwell) {
             return {
 
                 timestamp: item.timestamp,
+                date: moment.unix(item.timestamp).format('MMMM DD YYYY'),
+                time: moment.unix(item.timestamp).format('H:MM'),
                 wind: item.wind.speed,
                 weather: item.condition.weather + item.condition.unit,
                 minSwell: item.swell.minBreakingHeight,
