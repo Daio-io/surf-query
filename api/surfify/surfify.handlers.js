@@ -7,11 +7,9 @@ exports.getSurfForecast = function *() {
     let queries = this.request.query;
 
     let spotId = parseInt(queries.spotid);
-    let start = queries.start;
-    let end = queries.end;
-    let maxWind = queries.maxwind;
-    let minSwell = queries.minswell;
+    let maxWind = queries.maxwind || 0;
+    let minSwell = queries.minswell || 0;
 
-    this.body = yield mswRequest.makeRequest(spotId);
+    this.body = yield mswRequest.makeRequest(spotId, maxWind, minSwell);
 
 };

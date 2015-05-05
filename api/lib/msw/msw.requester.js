@@ -2,16 +2,21 @@
 
 var MswClient = require('./msw.client');
 
-// TODO: logic to only include data specified in the notification poll
-exports.makeRequest = function(_spotId) {
+// TODO: refactor into cleaner solution - deploying to test from app
+// Params for time and other scenarios around swell max and min
+exports.makeRequest = function (_spotId, _maxWind, _minSwell) {
 
     MswClient.setSpotId(_spotId);
 
     return MswClient.exec()
 
-        .then(_buildResponse)
+        .then(function (data) {
 
-        .catch(function(err) {
+            return _buildResponse(data, _maxWind, _minSwell);
+
+        })
+
+        .catch(function (err) {
 
             return err;
 
@@ -20,30 +25,48 @@ exports.makeRequest = function(_spotId) {
 };
 
 /**
- * 
+ *
  * @param _data
  * @returns {*}
  * @private
  */
-function _buildResponse(_data) {
+function _buildResponse(_data, _wind, _minSwell) {
 
     // Map response data to only take important data for Surfify
     let response = _data.map(function (item) {
 
-        return {
+        if (item.wind.speed < _wind && 
+            item.swell.minBreakingHeight > _minSwell) {
 
-            timestamp: item.timestamp,
-            wind: item.wind.speed,
-            weather: item.condition.weather + item.condition.unit,
-            minSwell: item.swell.minBreakingHeight,
-            maxSwell: item.swell.maxBreakingHeight,
-            solidStar: item.solidRating,
-            fadedStar: item.fadedRating
+            return {
+
+                timestamp: item.timestamp,
+                wind: item.wind.speed,
+                weather: item.condition.weather + item.condition.unit,
+                minSwell: item.swell.minBreakingHeight,
+                maxSwell: item.swell.maxBreakingHeight,
+                solidStar: item.solidRating,
+                fadedStar: item.fadedRating
+
+            }
 
         }
+        else return null;
 
     });
 
-    return response;
+    return response.filter(_filterEmptyValues);
 
+}
+
+/**
+ * *
+ * @param item
+ * @returns {boolean}
+ * @private
+ */
+function _filterEmptyValues(item) {
+    
+    return item !== null;
+    
 }
