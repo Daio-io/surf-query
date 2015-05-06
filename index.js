@@ -12,6 +12,6 @@ var server = http.createServer(app.callback());
 
 server.listen(settings.port, function() {
     
-   console.log('Surfify Server started on port: ', settings.port);
+   console.log('Surfify Server started on port:', settings.port);
     
 });
