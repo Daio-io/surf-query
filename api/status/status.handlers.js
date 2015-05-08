@@ -2,6 +2,6 @@
 
 exports.getStatus = function *() {
     
-  this.body= 'OK';
+  this.body= {status: 'OK'};
     
 };
