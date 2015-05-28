@@ -3,8 +3,6 @@
 var MswClient = require('./msw.client');
 var moment = require('moment');
 
-// TODO: refactor into cleaner solution - deploying to test from app
-// Params for time and other scenarios around swell max and min
 exports.makeRequest = function (_spotId, _maxWind, _minSwell) {
 
     MswClient.setSpotId(_spotId);
@@ -58,7 +56,8 @@ function _buildResponse(_data, _wind, _minSwell) {
 
     });
 
-    return response.filter(_filterEmptyValues);
+    return response.filter(_filterEmptyValues)
+        .splice(0, 5);
 
 }
 
