@@ -3,7 +3,7 @@
 var MswClient = require('./msw.client');
 var moment = require('moment');
 
-exports.makeRequest = function (_spotId, _maxWind, _minSwell) {
+exports.makeRequest = function (_spotId, _maxWind, _minSwell, start, end) {
 
     MswClient.setSpotId(_spotId);
 
@@ -11,7 +11,15 @@ exports.makeRequest = function (_spotId, _maxWind, _minSwell) {
 
         .then(function (data) {
 
-            return _buildResponse(data, _maxWind, _minSwell);
+            if(isNaN(start) || isNaN(end)) {
+
+                return _buildResponse(data, _maxWind, _minSwell, 0, 24);
+
+            } else {
+
+                return _buildResponse(data, _maxWind, _minSwell, start, end);
+
+            }
 
         })
 
@@ -29,13 +37,18 @@ exports.makeRequest = function (_spotId, _maxWind, _minSwell) {
  * @returns {*}
  * @private
  */
-function _buildResponse(_data, _wind, _minSwell) {
+function _buildResponse(_data, _wind, _minSwell, start, end) {
 
     // Map response data to only take important data for Surfify
     let response = _data.map(function (item) {
 
+        let time = moment.unix(item.timestamp).format('H');
+        let timey = parseInt(time);
+
         if (item.wind.speed < _wind && 
-            item.swell.minBreakingHeight > _minSwell) {
+            item.swell.minBreakingHeight > _minSwell &&
+            timey >= start &&
+            timey <= end) {
 
             return {
 
