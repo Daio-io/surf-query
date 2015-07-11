@@ -69,8 +69,7 @@ function _buildResponse(_data, _wind, _minSwell, start, end) {
 
     });
 
-    return response.filter(_filterEmptyValues)
-        .splice(0, 5);
+    return response.filter(_filterEmptyValues);
 
 }
 
