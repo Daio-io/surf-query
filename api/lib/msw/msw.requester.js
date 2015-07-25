@@ -1,7 +1,7 @@
 'use strict';
 
 const NodeCache = require('node-cache');
-const THREE_HOURS_SECONDS = 10800;
+const THREE_HOURS_IN_SECONDS = 10800;
 
 const moment = require('moment');
 const tooly = require('tooly');
@@ -9,31 +9,31 @@ const tooly = require('tooly');
 var mswCache = new NodeCache();
 var MswClient = require('./msw.client');
 
-exports.makeRequest = function(_spotId, _maxWind, _minSwell, start, end) {
+exports.makeRequest = function(query) {
 
-  let cached = mswCache.get(_spotId);
+  let cached = mswCache.get(query.spotId);
 
   if (tooly.existy(cached)) {
 
-    console.log('using cache for spot:', _spotId);
+    console.log('using cache for spot:', query.spotId);
 
     return new Promise(function(resolve) {
 
-      resolve(_processRequest(cached, _maxWind, _minSwell, start, end))
+      resolve(_processRequest(cached, query))
 
     });
 
   } else {
 
-    MswClient.setSpotId(_spotId);
+    MswClient.setSpotId(query.spotId);
 
     return MswClient.exec()
 
       .then(function(data) {
 
-        mswCache.set(_spotId, data, THREE_HOURS_SECONDS);
+        mswCache.set(query.spotId, data, THREE_HOURS_IN_SECONDS);
 
-        return _processRequest(data, _maxWind, _minSwell, start, end)
+        return _processRequest(data, query)
 
       })
 
@@ -46,15 +46,21 @@ exports.makeRequest = function(_spotId, _maxWind, _minSwell, start, end) {
 
 };
 
-function _processRequest(data, _maxWind, _minSwell, start, end) {
+function _processRequest(data, query) {
 
-  if (isNaN(start) || isNaN(end)) {
+  if (isNaN(query.start) || isNaN(query.end)) {
 
-    return _buildResponse(data, _maxWind, _minSwell, 0, 24);
+    return _buildResponse(data, 
+      query.maxWind, 
+      query.minSwell, 
+      query.maxSwell, 0, 24);
 
   } else {
 
-    return _buildResponse(data, _maxWind, _minSwell, start, end);
+    return _buildResponse(data, 
+      query.maxWind, 
+      query.minSwell, 
+      query.maxSwell, query.start, query.end);
 
   }
 
@@ -70,7 +76,7 @@ function _processRequest(data, _maxWind, _minSwell, start, end) {
  * @returns {*}
  * @private
  */
-function _buildResponse(_data, _wind, _minSwell, start, end) {
+function _buildResponse(_data, _wind, _minSwell, _maxSwell, start, end) {
 
   // Map response data to only take important data for Surfify
   let response = _data.map(function(item) {
@@ -79,7 +85,8 @@ function _buildResponse(_data, _wind, _minSwell, start, end) {
     let timey = parseInt(time);
 
     if (item.wind.speed < _wind &&
-      item.swell.minBreakingHeight > _minSwell &&
+      item.swell.minBreakingHeight >= _minSwell &&
+      item.swell.maxBreakingHeight <= _maxSwell &&
       timey >= start &&
       timey <= end) {
 

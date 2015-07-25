@@ -21,7 +21,6 @@ function startServer() {
   
 }
 
-
 if (require.main === module) {
   startServer();
 } else {
