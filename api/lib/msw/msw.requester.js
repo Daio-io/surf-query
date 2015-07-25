@@ -1,7 +1,7 @@
 'use strict';
 
 const NodeCache = require('node-cache');
-const THREE_HOURS = 10800000;
+const THREE_HOURS_SECONDS = 10800;
 
 const moment = require('moment');
 const tooly = require('tooly');
@@ -12,8 +12,10 @@ var MswClient = require('./msw.client');
 exports.makeRequest = function(_spotId, _maxWind, _minSwell, start, end) {
 
   let cached = mswCache.get(_spotId);
-  
+
   if (tooly.existy(cached)) {
+
+    console.log('using cache for spot:', _spotId);
 
     return new Promise(function(resolve) {
 
@@ -29,7 +31,7 @@ exports.makeRequest = function(_spotId, _maxWind, _minSwell, start, end) {
 
       .then(function(data) {
 
-        mswCache.set(_spotId, data, THREE_HOURS);
+        mswCache.set(_spotId, data, THREE_HOURS_SECONDS);
 
         return _processRequest(data, _maxWind, _minSwell, start, end)
 
