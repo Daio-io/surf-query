@@ -87,7 +87,6 @@ function _buildResponse(_data, _wind, _minSwell, start, end) {
         date: moment.unix(item.timestamp).format('MMMM Do YYYY'),
         time: moment.unix(item.timestamp).format('H:MM'),
         wind: item.wind.speed,
-        weather: item.condition.weather + item.condition.unit,
         minSwell: item.swell.minBreakingHeight,
         maxSwell: item.swell.maxBreakingHeight,
         solidStar: item.solidRating,
