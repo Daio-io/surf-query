@@ -1,1 +1,1 @@
-web: iojs index
+web: iojs cluster

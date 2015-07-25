@@ -1,17 +1,29 @@
 'use strict';
 
-var koa = require('koa');
-var app = koa();
-var settings = require('./api/conf/app.settings');
-var http = require('http');
+const koa = require('koa');
+const settings = require('./api/conf/app.settings');
+
+let app = koa();
+let http = require('http');
 
 require('./api/conf/app.bootstrap')(app);
 require('./api/conf/app.routes')(app);
 
-var server = http.createServer(app.callback());
+let server = http.createServer(app.callback());
 
-server.listen(settings.port, function() {
-    
-   console.log('Surfify Server started on port:', settings.port);
-    
-});
+function startServer() {
+  
+  server.listen(settings.port, function() {
+
+    console.log('Surfify Server started on port:', settings.port);
+
+  });
+  
+}
+
+
+if (require.main === module) {
+  startServer();
+} else {
+  module.exports = startServer();
+}
