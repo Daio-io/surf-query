@@ -3,7 +3,7 @@
 const NodeCache = require('node-cache');
 const THREE_HOURS_IN_SECONDS = 10800;
 
-const moment = require('moment-timezone');
+const moment = require('moment');
 const tooly = require('tooly');
 
 var mswCache = new NodeCache();
@@ -82,9 +82,10 @@ function _buildResponse(_data, _wind, _minSwell, _maxSwell, start, end) {
   // Map response data to only take important data for Surfify
   let response = _data.map(function(item) {
 
-    let time = moment.tz(item.timestamp, 'Europe/London');
+    // Set offset to UK
+    let time = moment.unix(item.timestamp).utcOffset(60);
     let timey = parseInt(time.format('H'));
-
+    
     if (item.wind.speed < _wind &&
       item.swell.minBreakingHeight >= _minSwell &&
       item.swell.maxBreakingHeight <= _maxSwell &&
@@ -94,8 +95,8 @@ function _buildResponse(_data, _wind, _minSwell, _maxSwell, start, end) {
       return {
 
         timestamp: item.timestamp,
-        date: moment.unix(time).format('MMMM Do YYYY'),
-        time: moment.unix(time).format('H:MM'),
+        date: time.format('MMMM Do YYYY'),
+        time: time.format('H:MM'),
         wind: item.wind.speed,
         minSwell: item.swell.minBreakingHeight,
         maxSwell: item.swell.maxBreakingHeight,
