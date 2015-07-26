@@ -77,7 +77,7 @@ function _processRequest(data, query) {
  * @returns {*}
  * @private
  */
-function _buildResponse(_data, _wind, _minSwell, _maxSwell, start, end) {
+function _buildResponse(_data, _maxWind, _minSwell, _maxSwell, start, end) {
 
   // Map response data to only take important data for Surfify
   let response = _data.map(function(item) {
@@ -86,7 +86,7 @@ function _buildResponse(_data, _wind, _minSwell, _maxSwell, start, end) {
     let time = moment.unix(item.timestamp).utcOffset(60);
     let timey = parseInt(time.format('H'));
     
-    if (item.wind.speed < _wind &&
+    if (item.wind.speed <= _maxWind &&
       item.swell.minBreakingHeight >= _minSwell &&
       item.swell.maxBreakingHeight <= _maxSwell &&
       timey >= start &&
