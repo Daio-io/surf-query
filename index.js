@@ -15,7 +15,7 @@ function startServer() {
   
   server.listen(settings.port, function() {
 
-    console.log('Surfify Server started on port:', settings.port);
+    console.log('Surf-Query Server started on port:', settings.port);
 
   });
   

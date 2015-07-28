@@ -1,3 +1,3 @@
-# Surfify-Notification-Server
+# Surf-Query
 
-A prototype hack around to test out functionality of Surfify APP
+Surf Querying Service

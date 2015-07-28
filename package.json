@@ -1,7 +1,7 @@
 {
-  "name": "Surfify-Notification-Server",
+  "name": "Surf-Query",
   "version": "0.0.1",
-  "description": "Notification Server for Surfify App Polling",
+  "description": "Surf Query Service",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Daveloper87/surfify-notification-server.git"
+    "url": "git@github.com:Daveloper87/surf-query.git"
   },
   "author": "Daveloper87",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Daveloper87/surfify-notification-server/issues"
+    "url": "https://github.com/Daveloper87/surf-query/issues"
   },
-  "homepage": "https://github.com/Daveloper87/surfify-notification-server",
+  "homepage": "https://github.com/Daveloper87/surf-query",
   "dependencies": {
     "koa": "^0.20.0",
     "koa-router": "^4.3.0",
