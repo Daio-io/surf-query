@@ -1,8 +1,8 @@
 'use strict';
 
-var MSWClient = require('msw-client');
+const MSWClient = require('msw-client');
 
-var mswClient = new MSWClient({
+let mswClient = new MSWClient({
    
     apikey: process.env.MSW_KEY,
     spot_id: 0,

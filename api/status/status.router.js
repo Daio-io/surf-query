@@ -1,6 +1,6 @@
 'use strict'
-var router = require('koa-router')();
-var statusHandlers = require('./status.handlers');
+const router = require('koa-router')();
+const statusHandlers = require('./status.handlers');
 
 router.get('/status', statusHandlers.getStatus);
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var AuthModel = require('./auth.model');
+const AuthModel = require('./auth.model');
 
 exports.verifyApiKey = function*(next) {
     

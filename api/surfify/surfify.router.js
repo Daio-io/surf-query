@@ -1,6 +1,8 @@
-var surfifyHandlers = require('./surfify.handlers');
-var auth = require('../auth/auth.middleware');
-var router = require('koa-router')();
+'use strict';
+
+const surfifyHandlers = require('./surfify.handlers');
+const auth = require('../auth/auth.middleware');
+const router = require('koa-router')();
 
 router.get('/', auth.verifyApiKey, surfifyHandlers.getSurfForecast);
 
