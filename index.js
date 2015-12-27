@@ -3,13 +3,13 @@
 const koa = require('koa');
 const settings = require('./api/conf/app.settings');
 
-let app = koa();
-let http = require('http');
+const app = koa();
+const http = require('http');
 
 require('./api/conf/app.bootstrap')(app);
 require('./api/conf/app.routes')(app);
 
-let server = http.createServer(app.callback());
+const server = http.createServer(app.callback());
 
 function startServer() {
   

@@ -1,6 +1,6 @@
 'use strict';
 
-let cluster = require('cluster');
+const cluster = require('cluster');
 
 function startWorker() {
   let worker = cluster.fork();

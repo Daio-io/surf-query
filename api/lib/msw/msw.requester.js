@@ -6,8 +6,8 @@ const THREE_HOURS_IN_SECONDS = 10800;
 const moment = require('moment');
 const tooly = require('tooly');
 
-var mswCache = new NodeCache();
-var MswClient = require('./msw.client');
+const mswCache = new NodeCache();
+const MswClient = require('./msw.client');
 
 exports.makeRequest = function(query) {
 
@@ -15,12 +15,8 @@ exports.makeRequest = function(query) {
 
   if (tooly.existy(cached)) {
 
-    console.log('using cache for spot:', query.spotId);
-
     return new Promise(function(resolve) {
-
       resolve(_processRequest(cached, query))
-
     });
 
   } else {
@@ -28,22 +24,14 @@ exports.makeRequest = function(query) {
     MswClient.setSpotId(query.spotId);
 
     return MswClient.exec()
-
       .then(function(data) {
-
         mswCache.set(query.spotId, data, THREE_HOURS_IN_SECONDS);
-
         return _processRequest(data, query)
-
       })
-
       .catch(function(err) {
-
         return err;
-
       });
   }
-
 };
 
 function _processRequest(data, query) {
