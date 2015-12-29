@@ -12,11 +12,13 @@ const MswClient = require('./msw.client');
 exports.makeRequest = function(query) {
 
   let cached = mswCache.get(query.spotId);
+  let res = {status: 'success'};
 
   if (tooly.existy(cached)) {
 
     return new Promise(function(resolve) {
-      resolve(_processRequest(cached, query))
+      res.response = _processRequest(cached, query);
+      resolve(res)
     });
 
   } else {
@@ -26,10 +28,12 @@ exports.makeRequest = function(query) {
     return MswClient.exec()
       .then(function(data) {
         mswCache.set(query.spotId, data, THREE_HOURS_IN_SECONDS);
-        return _processRequest(data, query)
+        res.response =  _processRequest(data, query);
+        return res;
       })
       .catch(function(err) {
-        return err;
+        res.status = 'failed';
+        return res;
       });
   }
 };
