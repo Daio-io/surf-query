@@ -12,7 +12,7 @@ const MswClient = require('./msw.client');
 exports.makeRequest = function(query) {
 
   let cached = mswCache.get(query.spotId);
-  let res = {status: 'success'};
+  let res = {status: 'success', message: 'Request successful'};
 
   if (tooly.existy(cached)) {
 
@@ -33,6 +33,8 @@ exports.makeRequest = function(query) {
       })
       .catch(function(err) {
         res.status = 'failed';
+        res.response = null;
+        res.message = `Request failed with error: ${err.message}`;
         return res;
       });
   }
