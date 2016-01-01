@@ -13,7 +13,7 @@ exports.verifyApiKey = function*(next) {
         yield next;
     }
     else {
-        yield this.body = {error: 'Invalid or no apikey'};
+        yield this.body = {status: 'failed', message: 'Invalid or no apikey'};
     }
 
 };
