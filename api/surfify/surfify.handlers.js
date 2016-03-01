@@ -1,6 +1,6 @@
 'use strict';
 
-let mswRequest = require('../lib/msw/msw.requester');
+const mswRequest = require('../lib/msw/msw.requester');
 
 exports.getSurfForecast = function *() {
 
