@@ -9,7 +9,7 @@ const tooly = require('tooly');
 const mswCache = new NodeCache();
 const MswClient = require('./msw.client');
 
-exports.makeRequest = function(query) {
+exports.makeRequest = function(query, amount) {
 
   let cached = mswCache.get(query.spotId);
   let res = {status: 'success', message: 'Request successful'};
@@ -17,7 +17,8 @@ exports.makeRequest = function(query) {
   if (tooly.existy(cached)) {
 
     return new Promise(function(resolve) {
-      res.response = _processRequest(cached, query);
+      let data = _processRequest(cached, query);
+      res.response = tooly.existy(amount) ? data.splice(0, amount) : data;
       resolve(res)
     });
 
@@ -28,12 +29,13 @@ exports.makeRequest = function(query) {
     return MswClient.exec()
       .then(function(data) {
         mswCache.set(query.spotId, data, THREE_HOURS_IN_SECONDS);
-        res.response =  _processRequest(data, query);
+        let results = _processRequest(data, query);
+        res.response = tooly.existy(amount) ? results.splice(0, amount) : results;
         return res;
       })
       .catch(function(err) {
         res.status = 'failed';
-        res.response = null;
+        res.response = [];
         res.message = `Request failed with error: ${err.message}`;
         return res;
       });
@@ -90,7 +92,7 @@ function _buildResponse(_data, _maxWind, _minSwell, _maxSwell, start, end) {
 
         timestamp: item.timestamp,
         date: time.format('MMMM Do YYYY'),
-        time: time.format('H:MM'),
+        time: time.format('H:MMa'),
         wind: item.wind.speed,
         minSwell: item.swell.minBreakingHeight,
         maxSwell: item.swell.maxBreakingHeight,

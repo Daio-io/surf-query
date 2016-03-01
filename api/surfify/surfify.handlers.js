@@ -12,6 +12,16 @@ exports.getSurfForecast = function *() {
 
 };
 
+exports.nextSurf = function *() {
+
+    let queries = this.request.query;
+
+    let data = _buildQueryData(queries);
+
+    this.body = yield mswRequest.makeRequest(data, 1);
+
+};
+
 function _buildQueryData(query) {
 
   return {
