@@ -1,24 +1,40 @@
 'use strict';
 
-const mswRequest = require('../lib/msw/msw.requester');
-
 exports.getSurfForecast = function *() {
 
-  let queries = this.request.query;
+    let query = _buildQueryData(this.request.query);
 
-  let data = _buildQueryData(queries);
-  
-  this.body = yield mswRequest.makeRequest(data);
+    let surfData = yield this.surfService.makeRequest(query.spotId);
+
+    let responseFilter = new this.ResponseFilter(surfData.response);
+
+    surfData.response = responseFilter.filterStartTime(query.start)
+        .filterEndTime(query.end)
+        .filterMaxSwell(query.maxSwell)
+        .filterMinSwell(query.minSwell)
+        .filterMaxWind(query.maxWind)
+        .results();
+
+    this.body = surfData;
 
 };
 
 exports.nextSurf = function *() {
 
-    let queries = this.request.query;
+    let query = _buildQueryData(this.request.query);
 
-    let data = _buildQueryData(queries);
+    let surfData = yield this.surfService.makeRequest(query.spotId);
 
-    this.body = yield mswRequest.makeRequest(data, 1);
+    let responseFilter = new this.ResponseFilter(surfData.response);
+
+    surfData.response = responseFilter.filterStartTime(query.start)
+        .filterEndTime(query.end)
+        .filterMaxSwell(query.maxSwell)
+        .filterMinSwell(query.minSwell)
+        .filterMaxWind(query.maxWind)
+        .results().splice(0, 1);
+
+    this.body = surfData;
 
 };
 
@@ -27,11 +43,11 @@ function _buildQueryData(query) {
   return {
 
     spotId: parseInt(query.spotid, 10),
-    start: parseInt(query.start, 10),
-    end: parseInt(query.end, 10),
-    maxWind: query.maxwind || 50,
-    minSwell: query.minswell || 0,
-    maxSwell: query.maxswell || 50
+    start: parseInt(query.start, 10) || null,
+    end: parseInt(query.end, 10) || null,
+    maxWind: parseInt(query.maxwind, 10) || null,
+    minSwell: parseInt(query.minswell, 10) || null,
+    maxSwell: parseInt(query.maxswell, 0) || null
 
   }
 
