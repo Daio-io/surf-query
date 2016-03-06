@@ -24,7 +24,7 @@
     "koa-router": "^4.3.0",
     "moment": "^2.10.3",
     "mongoose": "^4.0.2",
-    "msw-client": "^1.2.0",
+    "msw-client": "^2.0.0",
     "node-cache": "^3.0.0",
     "tooly": "https://github.com/Daio-io/tooly.git"
   }

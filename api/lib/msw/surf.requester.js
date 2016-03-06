@@ -25,7 +25,7 @@ exports.makeRequest = function(spotId) {
 
     MswClient.setSpotId(spotId);
 
-    return MswClient.exec()
+    return MswClient.request()
       .then(data => {
         mswCache.set(spotId, data, THREE_HOURS_IN_SECONDS);
         res.response = _buildResponse(data);
