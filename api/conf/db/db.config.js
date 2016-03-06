@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = Object.freeze({
 
     dev: {
         connectionString: 'mongodb://localhost/surfify',
@@ -24,4 +24,4 @@ module.exports = {
         }
     }
 
-};
+});

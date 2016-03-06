@@ -16,7 +16,7 @@ exports.makeRequest = function(spotId) {
 
   if (tooly.existy(cached)) {
 
-    return new Promise(function(resolve) {
+    return new Promise(resolve => {
       res.response = _buildResponse(cached);
       resolve(res)
     });
@@ -26,12 +26,12 @@ exports.makeRequest = function(spotId) {
     MswClient.setSpotId(spotId);
 
     return MswClient.exec()
-      .then(function(data) {
+      .then(data => {
         mswCache.set(spotId, data, THREE_HOURS_IN_SECONDS);
         res.response = _buildResponse(data);
         return res;
       })
-      .catch(function(err) {
+      .catch(err => {
         res.status = 'failed';
         res.response = [];
         res.message = `Request failed with error: ${err.message}`;

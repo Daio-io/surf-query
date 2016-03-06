@@ -13,7 +13,7 @@ const server = http.createServer(app.callback());
 
 function startServer() {
   
-  server.listen(settings.port, function() {
+  server.listen(settings.port, () => {
 
     console.log('Surf-Query Server started on port:', settings.port);
 

@@ -11,7 +11,7 @@ class ResponseFilter {
 
     filterStartTime(startTime) {
         if (tooly.existy(startTime)) {
-            this.data = this.data.filter((item) => {
+            this.data = this.data.filter(item => {
 
                 let time = moment.unix(item.timestamp).utcOffset(60);
                 let timey = parseInt(time.format('H'));
@@ -23,7 +23,7 @@ class ResponseFilter {
 
     filterEndTime(endTime) {
         if (tooly.existy(endTime)) {
-            this.data = this.data.filter((item) => {
+            this.data = this.data.filter(item => {
                 let time = moment.unix(item.timestamp).utcOffset(60);
                 let timey = parseInt(time.format('H'));
                 return timey <= endTime;
@@ -34,7 +34,7 @@ class ResponseFilter {
 
     filterMaxWind(maxWind) {
         if (tooly.existy(maxWind)) {
-            this.data = this.data.filter((item) => {
+            this.data = this.data.filter(item => {
                 return item.weather.wind <= maxWind;
             });
         }
@@ -43,7 +43,7 @@ class ResponseFilter {
 
     filterMaxSwell(maxSwell) {
         if (tooly.existy(maxSwell)) {
-            this.data = this.data.filter((item) => {
+            this.data = this.data.filter(item => {
                 return item.swell.maxSwell <= maxSwell;
             });
         }
@@ -52,7 +52,7 @@ class ResponseFilter {
 
     filterMinSwell(minSwell) {
         if (tooly.existy(minSwell)) {
-            this.data = this.data.filter((item) => {
+            this.data = this.data.filter(item => {
                 return item.swell.minSwell <= minSwell;
             });
         }
