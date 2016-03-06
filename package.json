@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Daveloper87/surf-query.git"
+    "url": "git@github.com:Daio-io/surf-query.git"
   },
-  "author": "Daveloper87",
+  "author": "Daio-io",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Daveloper87/surf-query/issues"
+    "url": "https://github.com/Daio-io/surf-query/issues"
   },
-  "homepage": "https://github.com/Daveloper87/surf-query",
+  "homepage": "https://github.com/Daio-io/surf-query",
   "dependencies": {
     "koa": "^1.0.0",
     "koa-router": "^4.3.0",
@@ -26,6 +26,6 @@
     "mongoose": "^4.0.2",
     "msw-client": "^1.2.0",
     "node-cache": "^3.0.0",
-    "tooly": "https://github.com/Daveloper87/tooly.git"
+    "tooly": "https://github.com/Daio-io/tooly.git"
   }
 }
