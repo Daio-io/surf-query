@@ -27,6 +27,10 @@ exports.nextSurf = function *() {
 
     let responseFilter = new this.ResponseFilter(surfData.response);
 
+    if (query.start != null) {
+      query.start = query.start >= 23 ? 22 : query.start;
+    }
+
     surfData.response = responseFilter.filterStartTime(query.start)
         .filterEndTime(query.end)
         .filterMaxSwell(query.maxSwell)
@@ -47,7 +51,7 @@ function _buildQueryData(query) {
     end: parseInt(query.end, 10) || null,
     maxWind: parseInt(query.maxwind, 10) || null,
     minSwell: parseInt(query.minswell, 10) || null,
-    maxSwell: parseInt(query.maxswell, 0) || null
+    maxSwell: parseInt(query.maxswell, 10) || null
 
   }
 
