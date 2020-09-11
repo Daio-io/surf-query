@@ -59,7 +59,9 @@ function _buildResponse(_data) {
         },
         swell: {
             minSwell: item.swell.minBreakingHeight,
-            maxSwell: item.swell.maxBreakingHeight
+            maxSwell: item.swell.maxBreakingHeight,
+            period: item.swell.components.combined.period,
+            compass: item.swell.components.combined.compassDirection
         }
 
       }
