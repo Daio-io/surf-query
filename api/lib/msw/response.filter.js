@@ -3,6 +3,20 @@
 const moment = require('moment');
 const tooly = require('tooly');
 
+Array.prototype.filterUntil = function (predicate) {
+
+    let shouldStop = false;
+
+    return this.filter(function filter(value, index) {
+        if (shouldStop) {
+            return true
+        }
+
+        shouldStop = predicate(value)
+        return shouldStop
+    });
+}
+
 class ResponseFilter {
 
     constructor(_data) {
@@ -30,6 +44,47 @@ class ResponseFilter {
             });
         }
         return this;
+    }
+
+    filterFromTime(fromTimeStamp) {
+        if (tooly.existy(fromTimeStamp)) {
+            this.data = this.data.filterUntil(item => {
+                let time = moment.unix(item.timestamp).utcOffset(60);
+                let from = moment.unix(fromTimeStamp).utcOffset(60);
+
+                return time >= from
+            })
+        }
+
+        return this
+    }
+
+    filterDayOfTimestamp(timestampDay) {
+        if (tooly.existy(timestampDay)) {
+
+            this.data = this.data.filter(item => {
+                let day = moment.unix(timestampDay).utcOffset(60);
+                let time = moment.unix(item.timestamp).utcOffset(60);
+
+                return time.isSame(day, "day")
+            })
+        }
+
+        return this
+    }
+
+    filterToTime(toTimeStamp) {
+        if (tooly.existy(toTimeStamp)) {
+            console.log(toTimeStamp)
+            this.data = this.data.filter(item => {
+                let time = moment.unix(item.timestamp).utcOffset(60);
+                let to = moment.unix(toTimeStamp).utcOffset(60);
+
+                return to >= time
+            })
+        }
+
+        return this
     }
 
     filterMaxWind(maxWind) {
