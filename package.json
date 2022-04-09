@@ -22,7 +22,7 @@
   "dependencies": {
     "koa": "^1.0.0",
     "koa-router": "^4.3.0",
-    "moment": "^2.10.3",
+    "moment": "^2.29.2",
     "mongoose": "^5.10.5",
     "msw-client": "^2.0.0",
     "node-cache": "^3.0.0",
